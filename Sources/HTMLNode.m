@@ -139,6 +139,11 @@ NSString * const RemoveChildNode = @"-removeChildNode:";
 	return [_parentNode indexOfChildNode:self];
 }
 
+- (NSString *)innerText
+{
+    return nil;
+}
+
 - (NSString *)textContent
 {
 	return nil;

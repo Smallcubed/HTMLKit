@@ -113,6 +113,24 @@
 	[self.attributes removeObjectForKey:name];
 }
 
+- (NSString*) innerText{
+    for (HTMLNode *node in self.nodeIterator) {
+        if (node.nodeType == HTMLNodeText) {
+            return [(NSString*)[(HTMLText *)node data] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        }
+    }
+    return nil;
+}
+
+- (void)setInnerText:(NSString*)textContent{
+    for (HTMLNode *node in self.childNodes) {
+        if (node.nodeType == HTMLNodeText) {
+            [(HTMLText*)node setData: [textContent stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+            textContent = nil; // set successive text contents to nil
+        }
+    }
+}
+
 - (NSString *)textContent
 {
 	NSMutableString *content = [NSMutableString string];

@@ -138,6 +138,11 @@ typedef NS_OPTIONS(unsigned short, HTMLDocumentPosition)
 @property (nonatomic, copy) NSString *textContent;
 
 /**
+ The inner Text of this node.
+ */
+@property (nonatomic, copy) NSString *innerText;
+
+/**
  The outer HTML string.
  */
 @property (nonatomic, strong, readonly)	NSString *outerHTML;
