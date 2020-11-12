@@ -374,7 +374,7 @@ NSString * const RemoveChildNode = @"-removeChildNode:";
 
 	if (self.ownerDocument != otherNode.ownerDocument) {
 		return (HTMLDocumentPositionDisconnected | HTMLDocumentPositionImplementationSpecific |
-				self.hash < otherNode.hash ? HTMLDocumentPositionPreceding : HTMLDocumentPositionFollowing);
+				((self.hash < otherNode.hash) ? HTMLDocumentPositionPreceding : HTMLDocumentPositionFollowing));
 	}
 
 	NSArray *ancestors1 = GetAncestorNodes(self);
@@ -382,7 +382,7 @@ NSString * const RemoveChildNode = @"-removeChildNode:";
 
 	if (ancestors1.lastObject != ancestors2.lastObject) {
 		return (HTMLDocumentPositionDisconnected | HTMLDocumentPositionImplementationSpecific |
-				self.hash < otherNode.hash ? HTMLDocumentPositionPreceding : HTMLDocumentPositionFollowing);
+				((self.hash < otherNode.hash) ? HTMLDocumentPositionPreceding : HTMLDocumentPositionFollowing));
 	}
 
 	NSUInteger index1 = ancestors1.count;
