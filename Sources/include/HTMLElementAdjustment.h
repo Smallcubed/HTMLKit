@@ -11,7 +11,7 @@
 ///------------------------------------------------------
 
 #import	"HTMLElement.h"
-#import "HTMLTokens.h"
+#import <HTMLTokens.h>
 #import "HTMLNamespaces.h"
 #import "NSString+HTMLKit.h"
 

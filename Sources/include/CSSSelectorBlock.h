@@ -6,7 +6,7 @@
 //  Copyright © 2015 BrainCookie. All rights reserved.
 //
 
-#import "CSSSelector.h"
+#import <CSSSelector.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

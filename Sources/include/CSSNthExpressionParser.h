@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CSSSelectors.h"
+#import <CSSSelectors.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

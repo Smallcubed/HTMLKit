@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 BrainCookie. All rights reserved.
 //
 
-#import "NSString+HTMLKit.h"
+#import <NSString+HTMLKit.h>
 
 /**
  HTML quirks modes

@@ -10,7 +10,7 @@
 /// HTMLKit private header
 ///------------------------------------------------------
 
-#import "HTMLToken.h"
+#import <HTMLToken.h>
 
 /**
  A HTML EOF Token.

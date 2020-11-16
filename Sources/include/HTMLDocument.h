@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 BrainCookie. All rights reserved.
 //
 
-#import "HTMLNode.h"
-#import "HTMLDocumentType.h"
-#import "HTMLQuirksMode.h"
+#import <HTMLNode.h>
+#import <HTMLDocumentType.h>
+#import <HTMLQuirksMode.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

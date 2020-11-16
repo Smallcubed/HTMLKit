@@ -11,8 +11,8 @@
 ///------------------------------------------------------
 
 #import <Foundation/Foundation.h>
-#import "HTMLToken.h"
-#import "HTMLTokenizerStates.h"
+#import <HTMLToken.h>
+#import <HTMLTokenizerStates.h>
 
 @class HTMLParser;
 

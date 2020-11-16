@@ -11,7 +11,7 @@
 ///------------------------------------------------------
 
 #import <Foundation/Foundation.h>
-#import "HTMLToken.h"
+#import <HTMLToken.h>
 
 /**
  HTML Parse Error Token

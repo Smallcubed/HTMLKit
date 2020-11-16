@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 BrainCookie. All rights reserved.
 //
 
-#import "HTMLCharacterData.h"
+#import <HTMLCharacterData.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

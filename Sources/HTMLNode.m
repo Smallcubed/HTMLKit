@@ -34,6 +34,11 @@ NSString * const RemoveChildNode = @"-removeChildNode:";
 
 #pragma mark - Init
 
+- (instancetype)init {
+	NSAssert(NO, @"Needs to be implemented by subclasses");
+	return [self initWithName:@"" type:HTMLNodeComment];
+}
+
 - (instancetype)initWithName:(NSString *)name type:(HTMLNodeType)type
 {
 	self = [super init];

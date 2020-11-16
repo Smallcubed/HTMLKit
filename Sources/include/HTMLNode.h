@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HTMLNodeIterator.h"
+#import <HTMLNodeIterator.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -160,7 +160,7 @@ typedef NS_OPTIONS(unsigned short, HTMLDocumentPosition)
 /**
  @abstract Use concrete subclasses of the HTML Node.
  */
-- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)init /*NS_UNAVAILABLE*/;
 
 /**
  Checks whether this node has child nodes.

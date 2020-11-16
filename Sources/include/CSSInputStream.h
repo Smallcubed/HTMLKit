@@ -11,7 +11,7 @@
 ///------------------------------------------------------
 
 #import <Foundation/Foundation.h>
-#import "HTMLInputStreamReader.h"
+#import <HTMLInputStreamReader.h>
 
 /**
  The CSS Inpute Stream.

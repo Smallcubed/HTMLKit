@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HTMLNodeFilter.h"
+#import <HTMLNodeFilter.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

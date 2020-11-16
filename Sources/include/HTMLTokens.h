@@ -10,10 +10,10 @@
 /// HTMLKit private header
 ///------------------------------------------------------
 
-#import	"HTMLToken.h"
-#import "HTMLCharacterToken.h"
-#import "HTMLCommentToken.h"
-#import "HTMLDOCTYPEToken.h"
-#import "HTMLParseErrorToken.h"
-#import "HTMLTagToken.h"
-#import "HTMLEOFToken.h"
+#import	<HTMLToken.h>
+#import <HTMLCharacterToken.h>
+#import <HTMLCommentToken.h>
+#import <HTMLDOCTYPEToken.h>
+#import <HTMLParseErrorToken.h>
+#import <HTMLTagToken.h>
+#import <HTMLEOFToken.h>
