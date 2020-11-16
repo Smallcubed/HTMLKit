@@ -160,7 +160,7 @@ typedef NS_OPTIONS(unsigned short, HTMLDocumentPosition)
 /**
  @abstract Use concrete subclasses of the HTML Node.
  */
-- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)init /*NS_UNAVAILABLE*/;
 
 /**
  Checks whether this node has child nodes.

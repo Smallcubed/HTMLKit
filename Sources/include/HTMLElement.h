@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  @warning Use one of the initWithTagName: methods instead.
  */
-- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)init /*NS_UNAVAILABLE*/;
 
 /**
  Initializes a new HTML element with the given tag name.
