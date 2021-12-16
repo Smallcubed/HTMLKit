@@ -2,8 +2,19 @@
 import PackageDescription
 
 let package = Package(
-	name: "HTMLKit",
-	products: [.library(name: "HTMLKit", targets: ["HTMLKit"])],
-	targets: [.target(name: "HTMLKit", dependencies: [], path: "Sources")],
-	swiftLanguageVersions: [.v5]
+    name: "HTMLKit",
+    products: [
+        .library(
+            name: "HTMLKit",
+            type:.dynamic,
+            targets: ["HTMLKit"]
+        )
+    ],
+    targets: [
+        .target(
+            name: "HTMLKit",
+            dependencies: [],
+            path: "Sources")
+    ],
+    swiftLanguageVersions: [.v5]
 )
