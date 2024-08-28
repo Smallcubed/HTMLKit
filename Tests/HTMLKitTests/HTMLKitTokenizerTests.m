@@ -14,6 +14,7 @@
 #import "HTMLTokenizer.h"
 #import "HTMLTokenizerStates.h"
 #import "HTMLTokens.h"
+#import "CSSSelectors.h"
 
 #import "HTMLParser.h"
 #import "HTMLDocument.h"
@@ -109,5 +110,17 @@
 		}
 	}
 }
+
+- (void)testBugFix_MultiNonBreakingSpaces {
+	HTMLElement * tester = [HTMLElement.alloc initWithTagName:@"span"];
+	XCTAssertNotNil(tester);
+	
+	NSString * testString = @"&nbsp;‌&nbsp;";
+	testString = [testString stringByReplacingOccurrencesOfString:@"\u200C" withString:@""];
+	tester.innerHTML = testString;
+
+	XCTAssertEqualObjects(tester.outerHTML, @"<span>&nbsp;&nbsp;</span>");
+}
+
 
 @end

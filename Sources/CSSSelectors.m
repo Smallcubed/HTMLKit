@@ -18,7 +18,7 @@
 
 #pragma mark - Type Selectors
 
-CSSSelector * universalSelector()
+CSSSelector * universalSelector(void)
 {
 	return [CSSTypeSelector universalSelector];
 }
@@ -76,42 +76,42 @@ CSSSelector * nthLastOfTypeSelector(CSSNthExpression expression)
 
 #pragma mark - Nth-Expression Shorthand
 
-CSSSelector * oddSelector()
+CSSSelector * oddSelector(void)
 {
 	return namedPseudoSelector(@"odd", nthChildSelector(CSSNthExpressionOdd));
 }
 
-CSSSelector * evenSlector()
+CSSSelector * evenSlector(void)
 {
 	return namedPseudoSelector(@"even", nthChildSelector(CSSNthExpressionEven));
 }
 
-CSSSelector * firstChildSelector()
+CSSSelector * firstChildSelector(void)
 {
 	return namedPseudoSelector(@"first-child", nthChildSelector(CSSNthExpressionMake(0, 1)));
 }
 
-CSSSelector * lastChildSelector()
+CSSSelector * lastChildSelector(void)
 {
 	return namedPseudoSelector(@"last-child", nthLastChildSelector(CSSNthExpressionMake(0, 1)));
 }
 
-CSSSelector * firstOfTypeSelector()
+CSSSelector * firstOfTypeSelector(void)
 {
 	return namedPseudoSelector(@"first-of-type", nthOfTypeSelector(CSSNthExpressionMake(0, 1)));
 }
 
-CSSSelector * lastOfTypeSelector()
+CSSSelector * lastOfTypeSelector(void)
 {
 	return namedPseudoSelector(@"last-of-type", nthLastOfTypeSelector(CSSNthExpressionMake(0, 1)));
 }
 
-CSSSelector * onlyChildSelector()
+CSSSelector * onlyChildSelector(void)
 {
 	return namedPseudoSelector(@"only-child", allOf(@[firstChildSelector(), lastChildSelector()]));
 }
 
-CSSSelector * onlyOfTypeSelector()
+CSSSelector * onlyOfTypeSelector(void)
 {
 	return namedPseudoSelector(@"only-of-type", allOf(@[firstOfTypeSelector(), lastOfTypeSelector()]));
 }

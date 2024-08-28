@@ -39,6 +39,7 @@
 	AssertH(@"<base foo=&amp>", @"<base foo=\"&amp;\">");
 	AssertH(@"<base foo=x0x00A0y>", @"<base foo=\"x&nbsp;y\">");
 	AssertH(@"<base foo='\"'>", @"<base foo=\"&quot;\">");
+	Assert(@"<p>non breaking spaces</p>", @"<p>non&nbsp;breaking&nbsp;spaces</p>");
 	Assert(@"<span foo=3 title='test \"with\" &amp;quot;'>", @"<span foo=\"3\" title=\"test &quot;with&quot; &amp;quot;\"></span>");
 	Assert(@"<p>\"'\"</p>", @"<p>\"'\"</p>");
 	Assert(@"<p>&amp;</p>", @"<p>&amp;</p>");

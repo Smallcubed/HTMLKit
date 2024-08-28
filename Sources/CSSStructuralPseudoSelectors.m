@@ -13,14 +13,14 @@
 
 #pragma mark - Elements
 
-CSSSelector * rootSelector()
+CSSSelector * rootSelector(void)
 {
 	return namedBlockSelector(@":root", ^BOOL(HTMLElement * element) {
 		return element.parentElement == nil;
 	});
 }
 
-CSSSelector * emptySelector()
+CSSSelector * emptySelector(void)
 {
 	return namedBlockSelector(@":empty", ^BOOL(HTMLElement * element) {
 		for (HTMLNode *child in element.childNodes) {
@@ -34,14 +34,14 @@ CSSSelector * emptySelector()
 	});
 }
 
-CSSSelector * parentSelector()
+CSSSelector * parentSelector(void)
 {
 	return namedBlockSelector(@":parent", ^BOOL(HTMLElement * element) {
 		return element.childNodesCount > 0;
 	});
 }
 
-CSSSelector * buttonSelector()
+CSSSelector * buttonSelector(void)
 {
 	return namedBlockSelector(@":button", ^BOOL(HTMLElement * _Nonnull element) {
 		if ([element.tagName isEqualToString:@"button"]) {
@@ -54,7 +54,7 @@ CSSSelector * buttonSelector()
 	});
 }
 
-CSSSelector * checkboxSelector()
+CSSSelector * checkboxSelector(void)
 {
 	return namedBlockSelector(@":checkbox", ^BOOL(HTMLElement * _Nonnull element) {
 		if ([element[@"type"] isEqualToString:@"checkbox"]) {
@@ -64,7 +64,7 @@ CSSSelector * checkboxSelector()
 	});
 }
 
-CSSSelector * fileSelector()
+CSSSelector * fileSelector(void)
 {
 	return namedBlockSelector(@":file", ^BOOL(HTMLElement * _Nonnull element) {
 		if ([element[@"type"] isEqualToString:@"file"]) {
@@ -74,7 +74,7 @@ CSSSelector * fileSelector()
 	});
 }
 
-CSSSelector * headerSelector()
+CSSSelector * headerSelector(void)
 {
 	return namedBlockSelector(@":header", ^BOOL(HTMLElement * _Nonnull element) {
 		if ([element.tagName isEqualToAny:@"h1", @"h2", @"h3", @"h4", @"h5", @"h6", nil]) {
@@ -84,7 +84,7 @@ CSSSelector * headerSelector()
 	});
 }
 
-CSSSelector * imageSelector()
+CSSSelector * imageSelector(void)
 {
 	return namedBlockSelector(@":image", ^BOOL(HTMLElement * _Nonnull element) {
 		if ([element[@"type"] isEqualToString:@"image"]) {
@@ -94,7 +94,7 @@ CSSSelector * imageSelector()
 	});
 }
 
-CSSSelector * inputSelector()
+CSSSelector * inputSelector(void)
 {
 	return namedBlockSelector(@":input", ^BOOL(HTMLElement * _Nonnull element) {
 		if ([element.tagName isEqualToAny:@"button", @"input", @"select", @"textarea", nil]) {
@@ -104,7 +104,7 @@ CSSSelector * inputSelector()
 	});
 }
 
-CSSSelector * linkSelector()
+CSSSelector * linkSelector(void)
 {
 	// https://html.spec.whatwg.org/multipage/scripting.html#selector-link
 	return namedBlockSelector(@":link", ^BOOL(HTMLElement * element) {
@@ -115,7 +115,7 @@ CSSSelector * linkSelector()
 	});
 }
 
-CSSSelector * passwordSelector()
+CSSSelector * passwordSelector(void)
 {
 	return namedBlockSelector(@":password", ^BOOL(HTMLElement * _Nonnull element) {
 		if ([element[@"type"] isEqualToString:@"password"]) {
@@ -125,7 +125,7 @@ CSSSelector * passwordSelector()
 	});
 }
 
-CSSSelector * radioSelector()
+CSSSelector * radioSelector(void)
 {
 	return namedBlockSelector(@":radio", ^BOOL(HTMLElement * _Nonnull element) {
 		if ([element[@"type"] isEqualToString:@"radio"]) {
@@ -135,7 +135,7 @@ CSSSelector * radioSelector()
 	});
 }
 
-CSSSelector * resetSelector()
+CSSSelector * resetSelector(void)
 {
 	return namedBlockSelector(@":reset", ^BOOL(HTMLElement * _Nonnull element) {
 		if ([element[@"type"] isEqualToString:@"reset"]) {
@@ -145,7 +145,7 @@ CSSSelector * resetSelector()
 	});
 }
 
-CSSSelector * submitSelector()
+CSSSelector * submitSelector(void)
 {
 	return namedBlockSelector(@":submit", ^BOOL(HTMLElement * _Nonnull element) {
 		if ([element.tagName isEqualToString:@"input"] && [element[@"type"] isEqualToString:@"submit"]) {
@@ -158,7 +158,7 @@ CSSSelector * submitSelector()
 	});
 }
 
-CSSSelector * textSelector()
+CSSSelector * textSelector(void)
 {
 	return namedBlockSelector(@":text", ^BOOL(HTMLElement * _Nonnull element) {
 		if ([element[@"type"] isEqualToString:@"text"]) {
@@ -170,7 +170,7 @@ CSSSelector * textSelector()
 
 #pragma mark - State
 
-CSSSelector * enabledSelector()
+CSSSelector * enabledSelector(void)
 {
 	// https://html.spec.whatwg.org/multipage/scripting.html#selector-enabled
 	CSSSelector *candiate = anyOf(@[
@@ -186,7 +186,7 @@ CSSSelector * enabledSelector()
 	return namedPseudoSelector(@"enabled", allOf(@[candiate, not(disabledSelector())]));
 }
 
-CSSSelector * disabledSelector()
+CSSSelector * disabledSelector(void)
 {
 	// https://html.spec.whatwg.org/multipage/scripting.html#selector-disabled
 	CSSSelector *disabledAttribute = hasAttributeSelector(@"disabled");
@@ -225,7 +225,7 @@ CSSSelector * disabledSelector()
 							   anyOf(@[disabledOption, disabledOptgroup, disabledMenuItem, disabledForm, disabledFieldset]));
 }
 
-CSSSelector * checkedSelector()
+CSSSelector * checkedSelector(void)
 {
 	// https://html.spec.whatwg.org/multipage/scripting.html#selector-checked
 	CSSSelector *candidate = anyOf(@[
@@ -241,7 +241,7 @@ CSSSelector * checkedSelector()
 	return namedPseudoSelector(@"checked", allOf(@[candidate, hasAttribute]));
 }
 
-CSSSelector * optionalSelector()
+CSSSelector * optionalSelector(void)
 {
 	// https://html.spec.whatwg.org/multipage/scripting.html#selector-optional
 	CSSSelector *candidate = anyOf(@[
@@ -254,7 +254,7 @@ CSSSelector * optionalSelector()
 	return namedPseudoSelector(@"optional", allOf(@[candidate, noAttribute]));
 }
 
-CSSSelector * requiredSelector()
+CSSSelector * requiredSelector(void)
 {
 	// https://html.spec.whatwg.org/multipage/scripting.html#selector-required
 	// https://html.spec.whatwg.org/multipage/forms.html#concept-input-required

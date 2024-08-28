@@ -107,6 +107,7 @@
 	[element.attributes enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
 		NSMutableString *escaped = [value mutableCopy];
 		[escaped replaceOccurrencesOfString:@"&" withString:@"&amp;" options:0 range:NSMakeRange(0, escaped.length)];
+		[escaped replaceOccurrencesOfString:@"0x00A0" withString:@"&nbsp;" options:0 range:NSMakeRange(0, escaped.length)];
 		[escaped replaceOccurrencesOfString:@"\u00A0" withString:@"&nbsp;" options:0 range:NSMakeRange(0, escaped.length)];
 		[escaped replaceOccurrencesOfString:@"\"" withString:@"&quot;" options:0 range:NSMakeRange(0, escaped.length)];
 
