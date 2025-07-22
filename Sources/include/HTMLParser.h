@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "HTMLElement.h"
 
+@class HTMLTokenizer;
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -32,6 +34,12 @@ NS_ASSUME_NONNULL_BEGIN
  @see HTMLDocument
  */
 @property (nonatomic, strong, readonly) HTMLDocument *document;
+
+/**
+ The HTMLTokenizer.
+
+*/
+@property (nonatomic, strong, readonly) HTMLTokenizer *tokenizer;
 
 /**
  Intializes a new parser instance with a given HTML string.
@@ -68,6 +76,8 @@ NS_ASSUME_NONNULL_BEGIN
  @see HTMLElement
  */
 - (NSArray<HTMLNode *> *)parseFragmentWithContextElement:(HTMLElement *)contextElement;
+
+
 
 @end
 

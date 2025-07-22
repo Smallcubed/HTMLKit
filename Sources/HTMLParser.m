@@ -98,6 +98,11 @@
 	return _document ?: [self parseDocument];
 }
 
+-(HTMLTokenizer *) tokenizer
+{
+    return _tokenizer;
+}
+
 #pragma mark - Parse
 
 - (void)initializeDocument
