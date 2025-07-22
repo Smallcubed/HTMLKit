@@ -6,6 +6,8 @@
 //  Copyright © 2015 BrainCookie. All rights reserved.
 //
 
+@import Foundation;
+
 #ifndef HTMLKitErrorDomain_h
 #define HTMLKitErrorDomain_h
 
@@ -20,4 +22,7 @@ NS_ENUM(NSInteger)
 	HTMLKitSelectorParseError = 4200
 };
 
+typedef NS_ERROR_ENUM(HTMLKitErrorDomain,HTMLKitErrorCode){
+    HTMLKitParseError = 4200
+};
 #endif /* HTMLKitErrorDomain_h */
