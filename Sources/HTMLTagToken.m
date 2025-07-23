@@ -83,7 +83,9 @@
 
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@: %p range={%ld,%ld} TagName=%@ Attributes=%@>", self.class, self, self.range.location,self.range.length,self.tagName, self.attributes];
+    NSString * attributeDescription = self.attributes.count>10?[NSString stringWithFormat:@"%ld attributes",self.attributes.count]: [self.attributes description];
+    
+    return [NSString stringWithFormat:@"<%@: %p range={%ld,%ld} TagName=%@ Attributes=%@>", self.class, self, self.range.location,self.range.length,self.tagName,attributeDescription];
 }
 
 @end

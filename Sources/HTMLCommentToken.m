@@ -53,7 +53,8 @@
 
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@: %p range={%ld,%ld} Data='%@'>", self.class, self,self.range.location,self.range.length, _data];
+    NSString * dataDescription = _data.length>256?[NSString stringWithFormat:@"%ld chars",_data.length]: [_data description];
+	return [NSString stringWithFormat:@"<%@: %p range={%ld,%ld} Data='%@'>", self.class, self,self.range.location,self.range.length, dataDescription];
 }
 
 @end

@@ -393,7 +393,7 @@
 
 		if (_currentTagToken.attributes[_currentAttributeName] != nil) {
 			[self emitParseError:@"duplicate-attribute"
-						 details:@"Tag [%@] already contains an attribute with name [%@]", _currentTagToken, _currentAttributeName];
+						 details:@"Tag [%@] already contains an attribute with name [%@]", [_currentTagToken tagName], _currentAttributeName];
 		} else {
 			_currentTagToken.attributes[_currentAttributeName] = _currentAttributeValue ?: @"";
 		}
