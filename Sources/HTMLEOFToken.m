@@ -31,7 +31,7 @@
 
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@: %p EOF>", self.class, self];
+	return [NSString stringWithFormat:@"<%@: %p location=%ld EOF>", self.class, self, self.range.location];
 }
 
 @end

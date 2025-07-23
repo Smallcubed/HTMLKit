@@ -95,7 +95,7 @@
 
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@: %p Characters='%@'>", self.class, self, _characters];
+	return [NSString stringWithFormat:@"<%@: %p range={%ld,%ld} Characters='%@'>", self.class, self, self.range.location,self.range.length,_characters];
 }
 
 @end

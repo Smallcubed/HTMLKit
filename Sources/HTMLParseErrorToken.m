@@ -49,7 +49,7 @@
 
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@: %p Code='%@' Details='%@' Location='%lu'>", self.class, self, _code, _details, (unsigned long)_location];
+	return [NSString stringWithFormat:@"<%@: %p location=%ld Code='%@' Details='%@'>", self.class, self, _location,_code, _details ];
 }
 
 @end

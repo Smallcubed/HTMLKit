@@ -83,7 +83,7 @@
 
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@: %p TagName=%@ Attributes=%@>", self.class, self, self.tagName, self.attributes];
+	return [NSString stringWithFormat:@"<%@: %p range={%ld,%ld} TagName=%@ Attributes=%@>", self.class, self, self.range.location,self.range.length,self.tagName, self.attributes];
 }
 
 @end
@@ -122,7 +122,7 @@
 
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@: %p TagName=%@ Attributes=%@>", self.class, self, self.tagName, self.attributes];
+	return [NSString stringWithFormat:@"<%@: %p range={%ld,%ld} TagName=%@ Attributes=%@>", self.class, self, self.range.location,self.range.length, self.tagName, self.attributes];
 }
 
 @end

@@ -45,7 +45,7 @@ typedef NS_ENUM(NSUInteger, HTMLTokenType)
 @interface HTMLToken : NSObject
 
 @property (nonatomic, assign) HTMLTokenType type;
-
+@property (nonatomic, assign) NSRange range;
 /** @brief YES if this token is DOCTYPE token. NO otherwise */
 - (BOOL)isDoctypeToken;
 

@@ -53,7 +53,7 @@
 
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@: %p Data='%@'>", self.class, self, _data];
+	return [NSString stringWithFormat:@"<%@: %p range={%ld,%ld} Data='%@'>", self.class, self,self.range.location,self.range.length, _data];
 }
 
 @end

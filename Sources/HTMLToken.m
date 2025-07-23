@@ -18,6 +18,12 @@
 @implementation HTMLToken
 @synthesize type = _type;
 
+-(instancetype) init{
+    self = [super init];
+    self.range = NSMakeRange(NSNotFound,0);
+    return self;
+}
+
 - (BOOL)isDoctypeToken
 {
 	return _type == HTMLTokenTypeDoctype;

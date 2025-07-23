@@ -78,7 +78,7 @@
 
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@: %p Name='%@' Public='%@' System='%@' ForceQuirks='%@'>", self.class, self, _name, _publicIdentifier, _systemIdentifier, @(_forceQuirks)];
+	return [NSString stringWithFormat:@"<%@: %p range={%ld,%ld} Name='%@' Public='%@' System='%@' ForceQuirks='%@'>", self.class, self, self.range.location,self.range.length,_name,_publicIdentifier, _systemIdentifier, @(_forceQuirks)];
 }
 
 @end

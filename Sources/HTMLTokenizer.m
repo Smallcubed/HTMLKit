@@ -21,6 +21,7 @@
 
 	/* Input Stream & Tokens Queue */
 	HTMLInputStreamReader *_inputStreamReader;
+    NSUInteger _currentLocation;
 	NSMutableArray *_tokens;
 
 	/* Character Reference */
@@ -268,16 +269,25 @@
 
 - (void)emitToken:(HTMLToken *)token
 {
-	if (_currentCharacterToken != nil) {
+    if (token.range.location != NSNotFound){
+        token.range = NSMakeRange(token.range.location,_inputStreamReader.currentLocation - token.range.location);
+    }
+    if (_currentCharacterToken != nil) {
+        NSRange range = _currentCharacterToken.range;
+        range.length = token.range.location-range.location;
+        _currentCharacterToken.range = range;
 		[_tokens addObject:_currentCharacterToken];
 		_currentCharacterToken = nil;
 	}
+   
 	[_tokens addObject:token];
 }
 
 - (void)emitEOFToken
 {
-	[self emitToken:[HTMLEOFToken token]];
+    HTMLEOFToken * eofToken = [HTMLEOFToken token];
+    eofToken.range = NSMakeRange(_currentLocation,0);
+	[self emitToken:eofToken];
 	_eof = YES;
 }
 
@@ -321,6 +331,7 @@
 
 	if (_currentCharacterToken == nil) {
 		_currentCharacterToken = [HTMLCharacterToken new];
+        _currentCharacterToken.range = NSMakeRange(_currentLocation, 0);
 	}
 
 	[_currentCharacterToken appendString:string];
@@ -382,7 +393,7 @@
 
 		if (_currentTagToken.attributes[_currentAttributeName] != nil) {
 			[self emitParseError:@"duplicate-attribute"
-						 details:@"Tag [%@] already contains an attrbitue with name [%@]", _currentTagToken, _currentAttributeName];
+						 details:@"Tag [%@] already contains an attribute with name [%@]", _currentTagToken, _currentAttributeName];
 		} else {
 			_currentTagToken.attributes[_currentAttributeName] = _currentAttributeValue ?: @"";
 		}
@@ -408,6 +419,7 @@
 
 - (void)HTMLTokenizerStateData
 {
+    _currentLocation = _inputStreamReader.currentLocation;
 	UTF32Char character = [_inputStreamReader consumeNextInputCharacter];
 	switch (character) {
 		case AMPERSAND:
@@ -523,16 +535,19 @@
 			break;
 		case LATIN_CAPITAL_LETTER_A ... LATIN_CAPITAL_LETTER_Z:
 			_currentTagToken = [[HTMLStartTagToken alloc] initWithTagName:StringFromUniChar(character + 0x0020)];
+            _currentTagToken.range = NSMakeRange(_currentLocation,0);
 			[self switchToState:HTMLTokenizerStateTagName];
 			break;
 		case LATIN_SMALL_LETTER_A ... LATIN_SMALL_LETTER_Z:
 			_currentTagToken = [[HTMLStartTagToken alloc] initWithTagName:StringFromUniChar(character)];
+            _currentTagToken.range = NSMakeRange(_currentLocation,0);
 			[self switchToState:HTMLTokenizerStateTagName];
 			break;
 		case QUESTION_MARK:
 			[self emitParseError:@"unexpected-question-mark-instead-of-tag-name"
 						 details:@"Unexpected (0x003F, ?) instead of tag name"];
 			_currentCommentToken = [[HTMLCommentToken alloc] initWithData:@""];
+            _currentCommentToken.range = NSMakeRange(_currentLocation,0);
 			[self switchToState:HTMLTokenizerStateBogusComment];
 			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
@@ -557,10 +572,12 @@
 	switch (character) {
 		case LATIN_CAPITAL_LETTER_A ... LATIN_CAPITAL_LETTER_Z:
 			_currentTagToken = [[HTMLEndTagToken alloc] initWithTagName:StringFromUniChar(character + 0x0020)];
+            _currentTagToken.range = NSMakeRange(_currentLocation,0);
 			[self switchToState:HTMLTokenizerStateTagName];
 			break;
 		case LATIN_SMALL_LETTER_A ... LATIN_SMALL_LETTER_Z:
 			_currentTagToken = [[HTMLEndTagToken alloc] initWithTagName:StringFromUniChar(character)];
+            _currentTagToken.range = NSMakeRange(_currentLocation,0);
 			[self switchToState:HTMLTokenizerStateTagName];
 			break;
 		case GREATER_THAN_SIGN:
@@ -576,6 +593,7 @@
 			[self emitParseError:@"invalid-first-character-of-tag-name"
 						 details:@"Unexpected first character (0x%X) of end tag name", (unsigned int)character];
 			_currentCommentToken = [[HTMLCommentToken alloc] initWithData:@""];
+            _currentCommentToken.range = NSMakeRange(_currentLocation,0);
 			[self switchToState:HTMLTokenizerStateBogusComment];
 			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
@@ -638,11 +656,13 @@
 	switch (character) {
 		case LATIN_CAPITAL_LETTER_A ... LATIN_CAPITAL_LETTER_Z:
 			_currentTagToken = [[HTMLEndTagToken alloc] initWithTagName:StringFromUniChar(character + 0x0020)];
+            _currentTagToken.range = NSMakeRange(_currentLocation,0);
 			[_temporaryBuffer appendString:StringFromUniChar(character)];
 			[self switchToState:HTMLTokenizerStateRCDATAEndTagName];
 			break;
 		case LATIN_SMALL_LETTER_A ... LATIN_SMALL_LETTER_Z:
 			_currentTagToken = [[HTMLEndTagToken alloc] initWithTagName:StringFromUniChar(character)];
+            _currentTagToken.range = NSMakeRange(_currentLocation,0);
 			[_temporaryBuffer appendString:StringFromUniChar(character)];
 			[self switchToState:HTMLTokenizerStateRCDATAEndTagName];
 			break;
@@ -718,11 +738,13 @@
 	switch (character) {
 		case LATIN_CAPITAL_LETTER_A ... LATIN_CAPITAL_LETTER_Z:
 			_currentTagToken = [[HTMLEndTagToken alloc] initWithTagName:StringFromUniChar(character + 0x0020)];
+            _currentTagToken.range = NSMakeRange(_currentLocation,0);
 			[_temporaryBuffer appendString:StringFromUniChar(character)];
 			[self switchToState:HTMLTokenizerStateRAWTEXTEndTagName];
 			break;
 		case LATIN_SMALL_LETTER_A ... LATIN_SMALL_LETTER_Z:
 			_currentTagToken = [[HTMLEndTagToken alloc] initWithTagName:StringFromUniChar(character)];
+            _currentTagToken.range = NSMakeRange(_currentLocation,0);
 			[_temporaryBuffer appendString:StringFromUniChar(character)];
 			[self switchToState:HTMLTokenizerStateRAWTEXTEndTagName];
 			break;
@@ -802,11 +824,13 @@
 	switch (character) {
 		case LATIN_CAPITAL_LETTER_A ... LATIN_CAPITAL_LETTER_Z:
 			_currentTagToken = [[HTMLEndTagToken alloc] initWithTagName:StringFromUniChar(character + 0x0020)];
+            _currentTagToken.range = NSMakeRange(_currentLocation,0);
 			[_temporaryBuffer appendString:StringFromUniChar(character)];
 			[self switchToState:HTMLTokenizerStateScriptDataEndTagName];
 			break;
 		case LATIN_SMALL_LETTER_A ... LATIN_SMALL_LETTER_Z:
 			_currentTagToken = [[HTMLEndTagToken alloc] initWithTagName:StringFromUniChar(character)];
+            _currentTagToken.range = NSMakeRange(_currentLocation,0);
 			[_temporaryBuffer appendString:StringFromUniChar(character)];
 			[self switchToState:HTMLTokenizerStateScriptDataEndTagName];
 			break;
@@ -1007,11 +1031,13 @@
 	switch (character) {
 		case LATIN_CAPITAL_LETTER_A ... LATIN_CAPITAL_LETTER_Z:
 			_currentTagToken = [[HTMLEndTagToken alloc] initWithTagName:StringFromUniChar(character + 0x0020)];
+            _currentTagToken.range = NSMakeRange(_currentLocation,0);
 			[_temporaryBuffer appendString:StringFromUniChar(character)];
 			[self switchToState:HTMLTokenizerStateScriptDataEscapedEndTagName];
 			break;
 		case LATIN_SMALL_LETTER_A ... LATIN_SMALL_LETTER_Z:
 			_currentTagToken = [[HTMLEndTagToken alloc] initWithTagName:StringFromUniChar(character)];
+            _currentTagToken.range = NSMakeRange(_currentLocation,0);
 			[_temporaryBuffer appendString:StringFromUniChar(character)];
 			[self switchToState:HTMLTokenizerStateScriptDataEscapedEndTagName];
 			break;
@@ -1524,6 +1550,7 @@
 {
 	if ([_inputStreamReader consumeString:@"--" caseSensitive:YES]) {
 		_currentCommentToken = [[HTMLCommentToken alloc] initWithData:@""];
+        _currentCommentToken.range = NSMakeRange(_currentLocation,0);
 		[self switchToState:HTMLTokenizerStateCommentStart];
 	} else if ([_inputStreamReader consumeString:@"DOCTYPE" caseSensitive:NO]) {
 		[self switchToState:HTMLTokenizerStateDOCTYPE];
@@ -1533,11 +1560,13 @@
 		} else {
 			[self emitParseError:@"cdata-in-html-content" details:nil];
 			_currentCommentToken = [[HTMLCommentToken alloc] initWithData:@"[CDATA["];
+            _currentCommentToken.range = NSMakeRange(_currentLocation,0);
 			[self switchToState:HTMLTokenizerStateBogusComment];
 		}
 	} else {
 		[self emitParseError:@"incorrectly-opened-comment" details:nil];
 		_currentCommentToken = [[HTMLCommentToken alloc] initWithData:@""];
+        _currentCommentToken.range = NSMakeRange(_currentLocation,0);
 		[self switchToState:HTMLTokenizerStateBogusComment];
 	}
 }
@@ -1765,6 +1794,7 @@
 		case EOF:
 			[self emitParseError:@"eof-in-doctype" details:nil];
 			_currentDoctypeToken = [HTMLDOCTYPEToken new];
+            _currentDoctypeToken.range = NSMakeRange(_currentLocation,0);
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
 			[self emitEOFToken];
@@ -1789,16 +1819,19 @@
 			return;
 		case LATIN_CAPITAL_LETTER_A ... LATIN_CAPITAL_LETTER_Z:
 			_currentDoctypeToken = [[HTMLDOCTYPEToken alloc] initWithName:StringFromUniChar(character + 0x0020)];
+            _currentDoctypeToken.range = NSMakeRange(_currentLocation,0);
 			[self switchToState:HTMLTokenizerStateDOCTYPEName];
 			return;
 		case NULL_CHAR:
 			[self emitParseError:@"unexpected-null-character" details:nil];
 			_currentDoctypeToken = [[HTMLDOCTYPEToken alloc] initWithName:StringFromUniChar(REPLACEMENT_CHAR)];
+            _currentDoctypeToken.range = NSMakeRange(_currentLocation,0);
 			[self switchToState:HTMLTokenizerStateDOCTYPEName];
 			return;
 		case GREATER_THAN_SIGN:
 			[self emitParseError:@"missing-doctype-name" details:@"Unexpected character (0x003E, >) before DOCTYPE name"];
 			_currentDoctypeToken = [HTMLDOCTYPEToken new];
+            _currentDoctypeToken.range = NSMakeRange(_currentLocation,0);
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentDoctypeToken];
@@ -1807,12 +1840,14 @@
 			[self emitParseError:@"eof-in-doctype" details:nil];
 			[self switchToState:HTMLTokenizerStateData];
 			_currentDoctypeToken = [HTMLDOCTYPEToken new];
+            _currentDoctypeToken.range = NSMakeRange(_currentLocation,0);
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
 			[self emitEOFToken];
 			return;
 		default:
 			_currentDoctypeToken = [[HTMLDOCTYPEToken alloc] initWithName:StringFromUTF32Char(character)];
+            _currentDoctypeToken.range = NSMakeRange(_currentLocation,0);
 			[self switchToState:HTMLTokenizerStateDOCTYPEName];
 			return;
 	}
