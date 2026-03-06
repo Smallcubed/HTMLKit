@@ -65,13 +65,35 @@ NSString * const RemoveChildNode = @"-removeChildNode:";
 		return _ownerDocument;
 	}
 }
+-(void)dealloc
+{
+    //Prevent crash if the node tree has a very very large number of nodes due to a recursive call in .cxxdestruct
+    [_childNodes removeAllObjects];
+}
 
-- (void)setOwnerDocument:(HTMLDocument *)ownerDocument
+- (void)_deprecated_setOwnerDocument:(HTMLDocument *)ownerDocument
 {
 	_ownerDocument = ownerDocument;
 	for (HTMLNode *child in _childNodes) {
-		[child setOwnerDocument:ownerDocument];
+		[child _deprecated_setOwnerDocument:ownerDocument];
 	}
+}
+// replacement method for recursive method _deprecated_setOwnerDocument:
+// This method collects children nodes into a set.
+// then processes the set iteratively, adding the children of the current node to the set, 
+// until the set has been exhausted.
+
+- (void)setOwnerDocument:(HTMLDocument *)ownerDocument
+{
+    self->_ownerDocument = ownerDocument;
+
+    NSMutableSet * nodesToProcess = [NSMutableSet setWithArray:self->_childNodes.array];
+    while (nodesToProcess.count>0){
+        HTMLNode * currentNode = nodesToProcess.anyObject;
+        [nodesToProcess removeObject:currentNode];
+        currentNode->_ownerDocument = ownerDocument;
+        [nodesToProcess addObjectsFromArray:currentNode->_childNodes.array];
+    }
 }
 
 - (HTMLNode *)rootNode
